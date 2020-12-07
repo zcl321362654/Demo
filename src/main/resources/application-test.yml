@@ -1,0 +1,75 @@
+server:
+  port: 8085
+  max-http-header-size: 10000000
+  servlet:
+    context-path: /${spring.application.name}
+
+spring:
+  application:
+    name: demo
+  cloud:
+    nacos:
+      discovery:
+        register-enabled: true
+        server-addr: localhost:8848
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/bbs?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
+    username: root
+    password: 123456
+    #连接池最大空闲时间
+    max-idle: 50
+    #最大建立连接等待时间，如果超过此时间将接到异常。设为-1表示无限制
+    max-wait: 10000
+    min-idle: 10
+    initial-size: 10
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+mybatis:
+  typeAliasesPackage: com.grandtech.wqht.model
+  mapper-locations: mapper/**Mapper.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    call-setters-on-nulls: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+#第三方日志
+#logging:
+  #config: classpath:config/config-log4j2_dev.xml
+
+zuul:
+  url: http://nyapi.agribigdata.com.cn
+  ServiceName:
+    WorkflowName: workflow-server-base
+    UserCenterName: gny-user-center
+    BankName: bank-access-server
+
+#ribbon的超时时间
+ribbon:
+  ReadTimeout: 120000
+  SocketTimeout: 300000
+  ConnectTimeout: 300000
+feign:
+  httpclient:
+    connection-timeout: 50000
+  client:
+    config:
+      default:
+        connect-timeout: 50000
+        read-timeout: 50000
+#输出sql
+#logging:
+  #level:
+    #com.grandtech.geosign.dao: debug
+    #com.gykj.jtsz.dao: debug
+    #com.grandtech.wqht.dao: debug
+
+#自定义属性在这里
+my:
+  str: string
+  codeAddress: http://szpt.agribigdata.com.cn/#/mobile?fid=
+  url: http://localhost:8071/gny-jtsz-api/api/v1/task/addBill
+  jrURL: http://47.92.217.76:6601/SZApi
+  jrSync: false
